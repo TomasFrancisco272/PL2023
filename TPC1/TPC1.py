@@ -1,5 +1,5 @@
 import myheart
-import Distribution_Module as distribution
+from Distribution_Module import Distribuicao
 
 number_of_patients = 0
 
@@ -21,8 +21,8 @@ def file_to_module():
         heart.close()
 
 def doenca_por_sexo():
-    atributos = distribution(["masculinos_doenca","masculinos_n_doenca","femininos_doenca","femininos_n_doenca"])
-    for i in number_of_patients:
+    atributos = Distribuicao(["masculinos_doenca","masculinos_n_doenca","femininos_doenca","femininos_n_doenca"])
+    for i in range(number_of_patients):
         if (myheart.sexo[i] == "Masculino"):
             if (myheart.temDoenca[i] == 1):
                 atributos.masculinos_doenca = atributos.masculinos_doenca + 1
@@ -49,7 +49,7 @@ def doenca_por_sexo():
         escaloes_etarios.append(novo_escalao)
         novo_escalao = "idade" + i + (i+4) + "n" # n indica não presença de doenca
         escaloes_etarios.append(novo_escalao)
-    atributos = distribution(escaloes_etarios)
+    atributos = Distribuicao(escaloes_etarios)
     #dicionario = vars(atributos)
     for i in number_of_patients: 
         if (myheart.temDoenca[i] == 1):
@@ -103,16 +103,16 @@ def doenca_por_sexo():
         niveis_coleesterol.append(novo_nivel)
         novo_nivel = "colesterol" + i + (i + 9) + "n"
         niveis_coleesterol.append(novo_nivel)
-    atributos = distribution(niveis_coleesterol)
+    atributos = Distribuicao(niveis_coleesterol)
 
-def tabela_por_distribuicao(dist: distribution):
+def tabela_por_distribuicao(dist: Distribuicao):
     atributos = dist.__dict__.keys()
     valores = dist.__dict__.values()
     for i in atributos:
-        print(atributos[i],end="\t")
+        print(i,end="  ")
     print("\n")
     for i in valores:
-        print(valores[i],end="\t")
+        print(i,end="  ")
     print("\n")
 
 def tabela_distribuicoes():
@@ -123,8 +123,7 @@ def tabela_distribuicoes():
 #    tabela_por_distribuicao(dist_por_escalao_etario)
 #    tabela_por_distribuicao(dist_por_colesterol)
 
-def main():
-    file_to_module()
-    atributos = doenca_por_sexo()
-    tabela_por_distribuicao(atributos)
-    print("Working as intended.")
+file_to_module()
+atributos = doenca_por_sexo()
+tabela_por_distribuicao(atributos)
+print("Working as intended.")

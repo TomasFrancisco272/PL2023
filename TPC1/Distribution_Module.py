@@ -1,4 +1,4 @@
 class Distribuicao:
-    def _init_(self, dict):
+    def __init__(self, dict):
         for member in dict:
             setattr(self, member, 0)
