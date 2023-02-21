@@ -5,7 +5,6 @@ number_of_patients = 0
 
 def file_to_module():
     heart = open("myheart.csv",'r')
-    exec(open("./myheart.py").read())
     linhas = heart.readlines()
     try:
         for i in range(1,len(linhas)):
@@ -41,17 +40,15 @@ def doenca_por_sexo():
 
     return atributos
 
-# def doenca_por_escalao_etario():
+def doenca_por_escalao_etario():
     escaloes_etarios = []
-    ## limite_maximo = max(myheart.idade)
     for i in range(30, 77, 5): 
         novo_escalao = "idade" + i + (i+4) + "s" # s indica presença de doenca
         escaloes_etarios.append(novo_escalao)
         novo_escalao = "idade" + i + (i+4) + "n" # n indica não presença de doenca
         escaloes_etarios.append(novo_escalao)
     atributos = Distribuicao(escaloes_etarios)
-    #dicionario = vars(atributos)
-    for i in number_of_patients: 
+    for i in range(number_of_patients): 
         if (myheart.temDoenca[i] == 1):
             if (30 <= myheart.idade[i] or myheart.idade[i] <= 34):
                 atributos.idade3034s = atributos.idade3034s + 1
@@ -124,6 +121,7 @@ def tabela_distribuicoes():
 #    tabela_por_distribuicao(dist_por_colesterol)
 
 file_to_module()
+print(myheart.colesterol)
 atributos = doenca_por_sexo()
 tabela_por_distribuicao(atributos)
 print("Working as intended.")
