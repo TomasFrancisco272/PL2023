@@ -14,16 +14,6 @@ def somador():
                 i += 3
             else:
                 i += 1
-        elif (input_string[i] == "-" and switch):
-            num = ""
-            n = i + 1
-            while (input_string[n].isnumeric()):
-                num += input_string[n]
-                n += 1
-                if (n >= limit):
-                    break
-            sum -= int(num)
-            i = n
         elif (input_string[i].isnumeric() and switch):
             num = input_string[i]
             n = i + 1
@@ -32,7 +22,10 @@ def somador():
                 n += 1
                 if (n >= limit):
                     break
-            sum += int(num)
+            if (input_string[i-1] == '-'):
+                sum -= int(num)
+            else:
+                sum += int(num)
             i = n
         elif (input_string[i] == "="):
             print(sum)
