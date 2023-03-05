@@ -1,6 +1,10 @@
-# Lista de dicionarios
+import re
+
+# Lista de dicionarios que se formam a partir de processos.txt
 
 dicts_ficheiro = []
+
+# Fazer dicionário a partir do ficheiro texto
 
 def transfer_file_to_data():
     ficheiro = open("processos.txt","r")
@@ -20,6 +24,8 @@ def transfer_file_to_data():
             dicionario["mae"] = items[4]
             dicionario["extras"] = items[5]
             dicts_ficheiro.append(dicionario)
+
+# Alínea a)
 
 def processos_por_ano():
     result = {}
@@ -50,6 +56,8 @@ def name_count_sorted(list_dicts):
         nomes = dict(sorted(nomes.items(),key=lambda x: x[1]))
     return nomes
 
+# Alínea b)
+
 def nomes_por_seculo():
     result = {}
     for entry in dicts_ficheiro:
@@ -64,7 +72,22 @@ def nomes_por_seculo():
     keys = list(nomes)
     for x in range(-1,-6,-1):
         print(str(keys[x]) + ":" + str(nomes[keys[x]]) + "\n")
-    return(result)
+    return result
+
+# Alínea c)
+
+# Needs minor fixing, use python tutor texting
+
+def freq_relacao():
+    result = {}
+    for entry in dicts_ficheiro:
+        adicional = re.split('( ){2,}',entry["extras"])
+        for item in adicional:
+            match = re.findall(',((\w+)( \w+)*)\.',item)
+            for element in match:
+                element = element[1:(len(element) - 1)] 
+                result[element] = result.setdefault(element,0) + 1
+    return result
 
 transfer_file_to_data()
-print(nomes_por_seculo())
+print(freq_relacao())
