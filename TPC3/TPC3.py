@@ -94,4 +94,3 @@ def first_20_records():
     result.close()
         
 transfer_file_to_data()
-first_20_records()
