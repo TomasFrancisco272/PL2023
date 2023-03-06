@@ -1,4 +1,5 @@
 import re
+import json
 
 # Lista de dicionarios que se formam a partir de processos.txt
 
@@ -76,18 +77,21 @@ def nomes_por_seculo():
 
 # Alínea c)
 
-# Needs minor fixing, use python tutor texting
-
 def freq_relacao():
     result = {}
     for entry in dicts_ficheiro:
-        adicional = re.split('( ){2,}',entry["extras"])
-        for item in adicional:
-            match = re.findall(',((\w+)( \w+)*)\.',item)
-            for element in match:
-                element = element[1:(len(element) - 1)] 
-                result[element] = result.setdefault(element,0) + 1
+        relationships = re.findall(',((\w+)( \w+)*)\.',entry["extras"])
+        for element in relationships:
+            result[element[0]] = result.setdefault(element[0],0) + 1
     return result
 
+# Alínea d)
+
+def first_20_records():
+    result = open("result.json","w")
+    for i in range(0,19):
+        result.write(json.dumps(dicts_ficheiro[i], indent=4))
+    result.close()
+        
 transfer_file_to_data()
-print(freq_relacao())
+first_20_records()
