@@ -13,18 +13,17 @@ def transfer_file_to_data():
         dicionario = {}
         items = linha.split("::")
         if (len(items) < 6):
-            break
-        else:
-            dicionario["pasta"] = items[0]
-            ano_mes_dia = items[1].split("-")
-            dicionario["ano"] = ano_mes_dia[0]
-            dicionario["mes"] = ano_mes_dia[1]
-            dicionario["dia"] = ano_mes_dia[2]
-            dicionario["nome"] = items[2]
-            dicionario["pai"] = items[3]
-            dicionario["mae"] = items[4]
-            dicionario["extras"] = items[5]
-            dicts_ficheiro.append(dicionario)
+            continue
+        dicionario["pasta"] = items[0]
+        ano_mes_dia = items[1].split("-")
+        dicionario["ano"] = ano_mes_dia[0]
+        dicionario["mes"] = ano_mes_dia[1]
+        dicionario["dia"] = ano_mes_dia[2]
+        dicionario["nome"] = items[2]
+        dicionario["pai"] = items[3]
+        dicionario["mae"] = items[4]
+        dicionario["extras"] = items[5]
+        dicts_ficheiro.append(dicionario)
 
 # Alínea a)
 
