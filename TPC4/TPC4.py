@@ -15,57 +15,56 @@ def csv_to_json():
     ficheiro_leitura.close()
 
     parametros = re.split(r',',conteudo[0])
+    parametros_iter = iter(parametros)
     parametros_type = []
 
-    for j in range(0,len(parametros)-1):
-        if (re.match(r'[A-zÀ-ÿ]+\{(\d+),(\d+)\}::([A-zÀ-ÿ]+)',parametros[j])):
-            pattern = re.match(r'[A-zÀ-ÿ]+\{(\d+),(\d+)\}::([A-zÀ-ÿ]+)',parametros[j])
-            minimum = int(pattern.group(1))
-            maximum = int(pattern.group(2))
-            if (maximum < minimum):
-                print("Parâmetros mal definidos.(Intervalo de listas não faz sentido.)")
-                return
-            for i in range(1,maximum):
-                j += 1
-                if (not re.match(r'^$',parametros[j])):
-                    print("Parâmetros mal definidos.(Número de colunas para lista menor do que esperado.)")
+    for par in parametros_iter:
+        if (re.match(r'[A-zÀ-ÿ]+',par)):
+            parametros_type.append(1)
+        elif (re.match(r'[A-zÀ-ÿ]+\{(\d+)\}',par)):
+            pattern = re.match(r'[A-zÀ-ÿ]+\{(\d+)\}',par)
+            limit = int(pattern.group(1))
+            for i in range(1,limit):
+                next(par)
+                if (not re.match(r'^$'),par):
+                    print("Parâmetros mal definidos.(Número de colunas para lista incorretas.)")
                     return
-            function = pattern.group(3)
-            parametros_type.append(4)
-            parametros_type.append(maximum)
-            parametros_type.append(function)
-        elif (re.match(r'[A-zÀ-ÿ]+\{(\d+),(\d+)\}',parametros[j])):
-            pattern = re.match(r'[A-zÀ-ÿ]+\{(\d+),(\d+)\}',parametros[j])
+            parametros_type.append(2)
+            parametros_type.append(limit)
+        elif (re.match(r'[A-zÀ-ÿ]+\{(\d+),(\d+)\}',par)):
+            pattern = re.match(r'[A-zÀ-ÿ]+\{(\d+),(\d+)\}',par)
             minimum = int(pattern.group(1))
             maximum = int(pattern.group(2))
             if (maximum < minimum):
                 print("Parâmetros mal definidos.(Intervalo de listas não fazem sentido.)")
                 return
             for i in range(1,maximum):
-                j += 1
-                if (not re.match(r'^$',parametros[j])):
+                next(par)
+                if (not re.match(r'^$'),par):
                     print("Parâmetros mal definidos.(Número de colunas para lista menor do que esperado.)")
                     return
             parametros_type.append(3)
             parametros_type.append(maximum)
-        elif (re.match(r'[A-zÀ-ÿ]+\{(\d+)\}',parametros[j])):
-            pattern = re.match(r'[A-zÀ-ÿ]+\{(\d+)\}',parametros[j])
-            limit = int(pattern.group(1))
-            for i in range(1,limit):
-                j += 1
-                if (not re.match(r'^$',parametros[j])):
-                    print("Parâmetros mal definidos.(Número de colunas para lista incorretas.)")
+        elif (re.match(r'[A-zÀ-ÿ]+\{(\d+),(\d+)\}::([A-zÀ-ÿ]+)',par)):
+            pattern = re.match(r'[A-zÀ-ÿ]+\{(\d+),(\d+)\}::([A-zÀ-ÿ]+)',par)
+            minimum = int(pattern.group(1))
+            maximum = int(pattern.group(2))
+            if (maximum < minimum):
+                print("Parâmetros mal definidos.(Intervalo de listas não faz sentido.)")
+                return
+            for i in range(1,maximum):
+                next(par)
+                if (not re.match(r'^$'),par):
+                    print("Parâmetros mal definidos.(Número de colunas para lista menor do que esperado.)")
                     return
-            parametros_type.append(2)
-            parametros_type.append(limit)
-        elif (re.match(r'[A-zÀ-ÿ]+',parametros[j])):
-            parametros_type.append(1)
-        elif (re.match(r'^$',parametros[j])):
+            function = pattern.group(3)
+            parametros_type.append(4)
+            parametros_type.append(maximum)
+            parametros_type.append(function)
+        elif (re.match(r'^$'),par):
             parametros_type.append(5)
         else:
             parametros_type.append(0)
-
-    print(parametros_type)
 
     if (parametros_type.count(0) > 0):
         print("Foi detetado um 0 nos parâmetros.")
